@@ -1,0 +1,92 @@
+.login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginLogo{
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+    margin-top: 30px;
+}
+
+.loginFormContainer{
+    box-shadow: 5px 5px 8px 10px #888888;
+    border-radius: 20px;
+    padding: 30px;
+    width: 30%;
+}
+
+.loginFormContainer>h1{
+ 
+}
+
+.loginInputsContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px 0px; 
+}
+
+.loginInputsContainer>input{
+    padding: 20px;
+    margin: 10px 0px;
+    outline: none;
+    border: none;
+    background-color: lightgray;
+    border-radius: 5px;
+}
+
+.loginInputsContainer>input:focus{
+    outline: 1px solid #09bfec;
+}
+
+.loginButtonContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.loginButtonContainer>button{
+    padding: 10px;
+    width: 50%;
+    cursor: pointer;
+    border: none;
+    background-color: #1da1f2;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.loginButtonContainer>button:hover{
+    background-color: #09bfec;
+}
+
+.loginWarning{
+    color: red;
+    font-weight: bold;
+    font-size: large;
+    margin: 0;
+}
+
+.loginSignupContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginSignupContainer>a{
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0px 10px;
+}
+
+@media (max-width: 768px){
+    .loginFormContainer{
+        width: 80%;
+    }
+}

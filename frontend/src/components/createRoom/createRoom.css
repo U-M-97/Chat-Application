@@ -1,0 +1,78 @@
+.createRoom{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: aqua;
+    z-index: 2;
+    padding: 20px;
+    width: 25%;
+}
+
+.c-header{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.c-closeIcon{
+    cursor: pointer;
+    transform: scale(1.3);
+}
+
+.c-input{
+    padding: 10px;
+    outline: none;
+    border: none;
+    width: 70%;
+}
+
+.c-radioContainer{
+    margin-top: 20px;
+    display: flex;
+}
+
+.c-radioButtonItem{
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    margin: 0px 10px;
+    cursor: pointer;
+}
+
+.c-radioButtonItem>input{
+    margin: 0px 5px 0px 0px;
+    cursor: pointer;
+}
+
+.c-radioButtonItem>label{
+    margin: 0px 5px;
+    cursor: pointer;
+}
+
+.c-buttonContainer{
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.c-button{
+    padding: 10px;
+    border: none;
+    font-size: large;
+    font-weight: bold;
+    background-color: #9dff00;
+    cursor: pointer;
+    width: 50%;
+}
+
+
+.c-button:hover{
+    background-color: rgb(9, 255, 0);
+}
+
+.c-warning{
+    color: red;
+    font-weight: bold;
+}
+

@@ -1,0 +1,92 @@
+.signup{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.signupLogo{
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+    margin-top: 30px;
+}
+
+.sigunpFormContainer{
+    box-shadow: 5px 5px 8px 10px #888888;
+    border-radius: 20px;
+    padding: 30px;
+    width: 30%;
+}
+
+.sigunpFormContainer>h1{
+ 
+}
+
+.signupInputsContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px 0px; 
+}
+
+.signupInputsContainer>input{
+    padding: 20px;
+    margin: 10px 0px;
+    outline: none;
+    border: none;
+    background-color: lightgray;
+    border-radius: 5px;
+}
+
+.signupInputsContainer>input:focus{
+    outline: 1px solid #09bfec;
+}
+
+.signupButtonContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.signupButtonContainer>button{
+    padding: 10px;
+    width: 50%;
+    cursor: pointer;
+    border: none;
+    background-color: #1da1f2;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.signupButtonContainer>button:hover{
+    background-color: #09bfec;
+}
+
+.signupWarning{
+    color: red;
+    font-weight: bold;
+    font-size: large;
+    margin: 0;
+}
+
+.signupLoginContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.signupLoginContainer>a{
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0px 10px;
+}
+
+@media (max-width: 768px){
+    .sigunpFormContainer{
+        width: 80%
+    }
+}
