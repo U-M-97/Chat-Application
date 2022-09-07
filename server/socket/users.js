@@ -46,13 +46,14 @@ const addUser = (id, user, room) => {
 }
 
 const getUser = (id, room) => {
-    console.log(id)
-    console.log(users.map((item) => {
-        return {id: item.id, user: item.user.username, room: item.room.roomName}
-    }))
+    // console.log(id)
+    // console.log(users.map((item) => {
+    //     return {id: item.id, user: item.user.username, room: item.room.roomName}
+    // }))
     const user = users.find((item) => {
         return item.id === id && item.room._id === room._id
     })
+    user && console.log("user = ",user._id)
     return user
 }
 

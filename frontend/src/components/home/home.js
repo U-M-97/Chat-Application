@@ -33,7 +33,7 @@ const Home = () => {
   const [chatMessage , setChatMessage] = useState("")
   const [toggleChatMessage, setToggleChatMessage] = useState(false)
   const [liveMessage, setLiveMessage] = useState()
-  const [onlineUsers, setOnlineUsers] = useState([])
+  const [newUser, setNewUser] = useState()
   const [previousRoom, setPreviousRoom] = useState(false)
   const scroll = useRef()
   const socket = useRef()
@@ -51,7 +51,7 @@ const Home = () => {
     let hours = date.getHours()
     let minutes = date.getMinutes()
     if(minutes < 10){
-      minutes = minutes.toString().padStart(1,"0")
+      minutes = minutes.toString().padStart(2,"0")
     }
     let seconds = date.getSeconds()
     if(seconds < 10){
@@ -97,12 +97,13 @@ const Home = () => {
     getRooms()
 
     socket.current.on("message", (data) => {
-      console.log(inputs)
+      console.log(data)
       setLiveMessage(data)
     })
 
     socket.current.on("roomData", (data) => {
-      console.log(data)
+      // console.log(data)
+      setNewUser(data)
     })
 
     return () => {
@@ -131,8 +132,6 @@ const Home = () => {
 
   const handleClick = async (e) => {
     getRooms()
-    console.log(e)
-    console.log(selectedRoom)
       if(e._id !== selectedRoom._id){
         console.log("running")
         setPreviousRoom(selectedRoom)
@@ -155,7 +154,24 @@ const Home = () => {
   }, [liveMessage])
 
   useEffect(() => {
+    if(newUser && selectedRoom){
+      const isMember = selectedRoom.roomMembers.find((member) => {
+        return member._id === newUser._id
+      })
+      if(!isMember){
+        setSelectedRoom((current) => {
+          return{
+            ...current, roomMembers:[
+              ...current.roomMembers, newUser
+            ]
+          }
+        })
+      }
+    }
+  }, [newUser])
 
+  useEffect(() => {
+    
     if(selectedRoom){
       const userPresent = selectedRoom.roomMembers.find((member) => {
         return member._id == user._id
@@ -163,15 +179,13 @@ const Home = () => {
 
       if(userPresent){
         setJoin(true)
+        selectedRoom && socket.current.emit("joinRoom", {user, selectedRoom, previousRoom})
       }
       else{
         setJoin(false)
       }
     }
-    
-    console.log("join = " , join)
-    previousRoom && socket.current.emit("leaveRoom" , previousRoom)
-    selectedRoom && socket.current.emit("joinRoom", {user, selectedRoom})
+  
   }, [selectedRoom])
 
   const handleChat = (e) => {
@@ -216,23 +230,35 @@ const Home = () => {
       id: e._id
     }
     try{
-      const res = await axios.delete('http://localhost:5000/api/rooms/delete' , {data})
-      if(res.data.message == "User deleted successfully"){
-        toast('User deleted Successfully!', {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          });
-          getRooms()
-      }
+      // const res = await axios.delete('http://localhost:5000/api/rooms/delete' , {data})
+      // if(res.data.message == "User deleted successfully"){
+      //   toast('User deleted Successfully!', {
+      //     position: "top-right",
+      //     autoClose: 2000,
+      //     hideProgressBar: false,
+      //     closeOnClick: false,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     progress: undefined,
+      //     });
+      //     // getRooms()
+
+         
+      //  }
+      
+       selectedRoom && setSelectedRoom((current) => {
+        return {
+          ...current, roomMembers: current.roomMembers.filter((member) => member._id !== e._id )
+        }
+      })
+      
+      socket.current.emit("removed", {selectedRoom, e})
     }catch(err){
       console.log(err)
     }
   }
+
+  console.log(selectedRoom)
 
   useEffect(() => {
     console.log("running")
@@ -292,6 +318,7 @@ const Home = () => {
   }, [])
 
   const handleJoin = async () => {
+    socket.current.emit("joinRoom", {user, selectedRoom, previousRoom})
     const data = {
       room: selectedRoom._id,
       user: user

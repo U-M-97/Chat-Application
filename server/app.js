@@ -37,8 +37,9 @@ const io = require("socket.io")(4000, {
 io.on("connection", (socket) => {
     console.log("User Connected")
 
-    socket.on("joinRoom", ({user,selectedRoom}) => {
-        
+    socket.on("joinRoom", ({user,selectedRoom,previousRoom}) => {
+
+        socket.leave(previousRoom._id)
         const newUser = addUser(socket.id, user, selectedRoom)
         // console.log(newUser.error)
         if(newUser.error){
@@ -46,24 +47,15 @@ io.on("connection", (socket) => {
         }
         // console.log(newUser.user.username)
 
-        socket.broadcast.to(newUser.room).emit("message", {
-            user: newUser.user.username,
-            message: "Joined the chat"
-        })
+        // io.to(newUser.room._id).emit("message", {
+        //     user: newUser.user,
+        //     message: "Joined the chat"
+        // })
 
         socket.join(newUser.room._id)
-
-        io.to(newUser.room._id).emit("roomData", {
-            room: newUser.room,
-            users: getRoomUsers(newUser.room),  
-        })
-
+        // console.log(newUser.user)
+        io.to(newUser.room._id).emit("roomData", newUser.user)
         // console.log(io.sockets.adapter.rooms) 
-    })
-
-    socket.on("leaveRoom", (previousRoom) => {
-        // console.log("previous Room = ",previousRoom._id)
-        socket.leave(previousRoom._id)
     })
 
     socket.on("newChat", ({chatMessage, selectedRoom, time}) => {
@@ -77,10 +69,14 @@ io.on("connection", (socket) => {
             time: time
         })
 
-        isUser && io.to(isUser.room._id).emit("roomData", {
-            room: isUser.room,
-            users: getRoomUsers(isUser.room)
-        })
+        // isUser && io.to(isUser.room._id).emit("roomData", {
+        //     room: isUser.room,
+        //     users: getRoomUsers(isUser.room)
+        // })
+    })
+
+    socket.on("removed", ({selectedRoom, e}) => {
+        
     })
 
     socket.on("disconnect", () => {
